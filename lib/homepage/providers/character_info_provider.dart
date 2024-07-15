@@ -12,6 +12,7 @@ class CharacterImage extends _$CharacterImage {
 
   @override
   FutureOr<String> build() {
+    print('build');
     return '';
   }
 
@@ -50,15 +51,19 @@ class CharacterImage extends _$CharacterImage {
 
       // 여기서 characterInfoResponse.data에서 이미지 URL을 추출하여 상태를 업데이트해야 합니다.
       // 예를 들어:
-      final imageUrl = characterInfoResponse.data['character_image_url'] ?? '';
+      final imageUrl = characterInfoResponse.data['character_image'] ?? '';
       state = AsyncValue.data(imageUrl);
     } on DioException catch (e) {
       String errorMessage;
       if (e.response != null) {
-        errorMessage =
-            '서버 에러: ${e.response?.statusCode} - ${e.response?.statusMessage}';
+        if (e.response!.statusCode! ~/ 100 == 4) {
+          errorMessage = '유효하지 않은 요청입니다.';
+        } else {
+          errorMessage =
+              '서버 에러: ${e.response?.statusCode} - ${e.response?.statusMessage}';
+        }
       } else {
-        errorMessage = '네트워크 에러: ${e.message}';
+        errorMessage = '네트워크 연결을 확인해주세요.';
       }
       print(errorMessage);
       print(e.response);

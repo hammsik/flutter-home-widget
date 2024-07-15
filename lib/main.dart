@@ -5,5 +5,5 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: '.env');
-  runApp(ProviderScope(child: MyHome()));
+  runApp(const ProviderScope(child: MaterialApp(home: MyHome())));
 }

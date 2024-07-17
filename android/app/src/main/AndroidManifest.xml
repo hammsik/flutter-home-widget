@@ -21,8 +21,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="flutter_home_widget">
         <receiver
-            android:name=".ExampleAppWidget"
-            android:exported="false">
+            android:name=".ExampleAppWidgetReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -32,7 +32,7 @@
                 android:resource="@xml/example_app_widget_info" />
         </receiver>
         <receiver
-            android:name=".glance.HomeWidetReceiver"
+            android:name=".NewHomeWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

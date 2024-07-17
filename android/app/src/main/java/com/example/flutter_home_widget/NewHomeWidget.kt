@@ -8,7 +8,6 @@ import android.widget.RemoteViews
 // New import.
 import es.antonborri.home_widget.HomeWidgetPlugin
 
-
 /**
  * Implementation of App Widget functionality.
  */

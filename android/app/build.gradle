@@ -53,9 +53,20 @@ android {
     }
     buildFeatures {
         viewBinding true
+           compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation 'androidx.glance:glance-appwidget:1.0.0'  // Glance 종속성 추가
 }

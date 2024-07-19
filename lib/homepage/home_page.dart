@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_home_widget/homepage/home_event.dart';
 import 'package:flutter_home_widget/homepage/home_state.dart';
+import 'package:flutter_home_widget/homepage/providers/character_info_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -66,9 +67,9 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState, HomeEvent {
               onPressed: handleSubmit,
               child: const Text('캐릭터 OCID 조회'),
             ),
-            imageUrl(ref).when(
-              data: (url) =>
-                  url == '' ? const SizedBox.shrink() : Image.network(url),
+            currentCharacter(ref).when(
+              data: (data) =>
+                  data == null ? const SizedBox.shrink() : Image.network(data.image),
               loading: () => Container(
                 width: 100,
                 height: 100,

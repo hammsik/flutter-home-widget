@@ -6,7 +6,7 @@ part of 'character_search_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchCharacterHash() => r'5bd28633c0f9ee315dc2421ff16524a0e1f83b56';
+String _$searchCharacterHash() => r'cedb90ae8c6a17d5b22f490643221fd6d58c967c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -72,7 +72,7 @@ class SearchCharacterFamily extends Family<AsyncValue<CharacterInfo>> {
 }
 
 /// See also [searchCharacter].
-class SearchCharacterProvider extends FutureProvider<CharacterInfo> {
+class SearchCharacterProvider extends AutoDisposeFutureProvider<CharacterInfo> {
   /// See also [searchCharacter].
   SearchCharacterProvider({
     required String characterName,
@@ -124,7 +124,7 @@ class SearchCharacterProvider extends FutureProvider<CharacterInfo> {
   }
 
   @override
-  FutureProviderElement<CharacterInfo> createElement() {
+  AutoDisposeFutureProviderElement<CharacterInfo> createElement() {
     return _SearchCharacterProviderElement(this);
   }
 
@@ -143,13 +143,14 @@ class SearchCharacterProvider extends FutureProvider<CharacterInfo> {
   }
 }
 
-mixin SearchCharacterRef on FutureProviderRef<CharacterInfo> {
+mixin SearchCharacterRef on AutoDisposeFutureProviderRef<CharacterInfo> {
   /// The parameter `characterName` of this provider.
   String get characterName;
 }
 
 class _SearchCharacterProviderElement
-    extends FutureProviderElement<CharacterInfo> with SearchCharacterRef {
+    extends AutoDisposeFutureProviderElement<CharacterInfo>
+    with SearchCharacterRef {
   _SearchCharacterProviderElement(super.provider);
 
   @override

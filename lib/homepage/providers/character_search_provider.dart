@@ -8,7 +8,7 @@ part 'character_search_provider.g.dart';
 final _dio = Dio();
 const baseUrl = 'https://open.api.nexon.com/maplestory/v1';
 
-@Riverpod(keepAlive: true)
+@Riverpod(keepAlive: false)
 Future<CharacterInfo> searchCharacter(SearchCharacterRef ref,
     {required String characterName}) async {
       print('api get 진입 $characterName');

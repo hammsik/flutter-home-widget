@@ -22,8 +22,9 @@ class MyHome extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MyHomeState();
 }
 
-class _MyHomeState extends ConsumerState<MyHome> with HomeState, HomeEvent {
+class _MyHomeState extends ConsumerState<MyHome> with HomeState {
   final TextEditingController _controller = TextEditingController();
+  String characterName = '';
 
   @override
   void initState() {
@@ -35,7 +36,9 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState, HomeEvent {
   Widget build(BuildContext context) {
     void handleSubmit() {
       FocusManager.instance.primaryFocus?.unfocus(); // 키보드를 내립니다.
-      searchCharacter(ref, _controller.text);
+      setState(() {
+        characterName = _controller.text;
+      });
     }
 
     return Scaffold(
@@ -49,6 +52,44 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState, HomeEvent {
           updateHomeWidget('버튼누름요', 'wow');
         },
         label: const Text('Update Homescreen'),
+      ),
+      appBar: AppBar(
+        title: const Text('Home Screen Widget'),
+      ),
+      endDrawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            characterName.isEmpty
+                ? const Text('캐릭터를 검색해주세요')
+                : Center(
+                    child: searchCharacter(ref, characterName).when(
+                      data: (data) => data == null
+                          ? const SizedBox.shrink()
+                          : Image.network(data.image),
+                      loading: () => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                      error: (error, stack) => Text('Error: $error'),
+                    ),
+                  ),
+          ],
+        ),
       ),
       body: Center(
         child: Column(
@@ -66,19 +107,6 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState, HomeEvent {
             ElevatedButton(
               onPressed: handleSubmit,
               child: const Text('캐릭터 OCID 조회'),
-            ),
-            currentCharacter(ref).when(
-              data: (data) =>
-                  data == null ? const SizedBox.shrink() : Image.network(data.image),
-              loading: () => Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.blueGrey,
-                ),
-              ),
-              error: (error, stack) => Text('Error: $error'),
             ),
           ],
         ),

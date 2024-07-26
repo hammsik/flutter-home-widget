@@ -6,7 +6,7 @@ part of 'character_search_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchCharacterHash() => r'cedb90ae8c6a17d5b22f490643221fd6d58c967c';
+String _$searchCharacterHash() => r'7abb603a85d82594dabe27b2f560caae05db1cc8';
 
 /// Copied from Dart SDK
 class _SystemHash {

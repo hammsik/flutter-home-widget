@@ -8,10 +8,10 @@ part 'character_search_provider.g.dart';
 final _dio = Dio();
 const baseUrl = 'https://open.api.nexon.com/maplestory/v1';
 
-@Riverpod(keepAlive: false)
+@riverpod
 Future<CharacterInfo> searchCharacter(SearchCharacterRef ref,
     {required String characterName}) async {
-      print('api get 진입 $characterName');
+  print('api get 진입 $characterName');
   if (dotenv.env['API_KEY'] == null) {
     throw (AsyncValue.error('API KEY가 존재하지 않습니다.', StackTrace.current));
   }

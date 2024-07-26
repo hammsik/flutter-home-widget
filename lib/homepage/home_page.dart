@@ -108,6 +108,24 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState {
               onPressed: handleSubmit,
               child: const Text('캐릭터 OCID 조회'),
             ),
+            characterName.isEmpty
+                ? const Text('캐릭터를 검색해주세요')
+                : Center(
+                    child: searchCharacter(ref, characterName).when(
+                      data: (data) => data == null
+                          ? const SizedBox.shrink()
+                          : Image.network(data.image),
+                      loading: () => Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.blueGrey,
+                        ),
+                      ),
+                      error: (error, stack) => Text('Error: $error'),
+                    ),
+                  ),
           ],
         ),
       ),

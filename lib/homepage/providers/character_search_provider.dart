@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_home_widget/models/character_info.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
@@ -10,7 +12,7 @@ const baseUrl = 'https://open.api.nexon.com/maplestory/v1';
 
 @riverpod
 Future<CharacterInfo> searchCharacter(SearchCharacterRef ref,
-    {required String characterName}) async {
+    String characterName, BuildContext context) async {
   print('api get 진입 $characterName');
   if (dotenv.env['API_KEY'] == null) {
     throw (AsyncValue.error('API KEY가 존재하지 않습니다.', StackTrace.current));
@@ -25,7 +27,6 @@ Future<CharacterInfo> searchCharacter(SearchCharacterRef ref,
     if (ocidResponse.statusCode != 200) {
       throw Exception('Failed to load OCID data');
     }
-
     final ocid = ocidResponse.data['ocid'].toString();
     // 캐릭터 정보 가져오기
     final characterInfoResponse = await _dio.get('$baseUrl/character/basic',
@@ -39,6 +40,9 @@ Future<CharacterInfo> searchCharacter(SearchCharacterRef ref,
     print('데이터 로드 완료 ${characterInfoResponse.data}');
     print('데이터 날것 $characterInfoResponse');
     // final json = jsonDecode(characterInfoResponse) as Map<String, dynamic>;
+    final characterImage = CharacterInfo.fromJson(characterInfoResponse.data).image;
+    await Future.wait([precacheImage(NetworkImage(characterImage), context)]);
+
     return CharacterInfo.fromJson(characterInfoResponse.data);
   } on DioException catch (e) {
     String errorMessage;

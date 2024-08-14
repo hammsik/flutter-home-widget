@@ -6,7 +6,7 @@ part of 'character_search_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$searchCharacterHash() => r'7abb603a85d82594dabe27b2f560caae05db1cc8';
+String _$searchCharacterHash() => r'ff32d546d75b7257caafb699e53820cde77eb750';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -39,11 +39,13 @@ class SearchCharacterFamily extends Family<AsyncValue<CharacterInfo>> {
   const SearchCharacterFamily();
 
   /// See also [searchCharacter].
-  SearchCharacterProvider call({
-    required String characterName,
-  }) {
+  SearchCharacterProvider call(
+    String characterName,
+    BuildContext context,
+  ) {
     return SearchCharacterProvider(
-      characterName: characterName,
+      characterName,
+      context,
     );
   }
 
@@ -52,7 +54,8 @@ class SearchCharacterFamily extends Family<AsyncValue<CharacterInfo>> {
     covariant SearchCharacterProvider provider,
   ) {
     return call(
-      characterName: provider.characterName,
+      provider.characterName,
+      provider.context,
     );
   }
 
@@ -74,12 +77,14 @@ class SearchCharacterFamily extends Family<AsyncValue<CharacterInfo>> {
 /// See also [searchCharacter].
 class SearchCharacterProvider extends AutoDisposeFutureProvider<CharacterInfo> {
   /// See also [searchCharacter].
-  SearchCharacterProvider({
-    required String characterName,
-  }) : this._internal(
+  SearchCharacterProvider(
+    String characterName,
+    BuildContext context,
+  ) : this._internal(
           (ref) => searchCharacter(
             ref as SearchCharacterRef,
-            characterName: characterName,
+            characterName,
+            context,
           ),
           from: searchCharacterProvider,
           name: r'searchCharacterProvider',
@@ -91,6 +96,7 @@ class SearchCharacterProvider extends AutoDisposeFutureProvider<CharacterInfo> {
           allTransitiveDependencies:
               SearchCharacterFamily._allTransitiveDependencies,
           characterName: characterName,
+          context: context,
         );
 
   SearchCharacterProvider._internal(
@@ -101,9 +107,11 @@ class SearchCharacterProvider extends AutoDisposeFutureProvider<CharacterInfo> {
     required super.debugGetCreateSourceHash,
     required super.from,
     required this.characterName,
+    required this.context,
   }) : super.internal();
 
   final String characterName;
+  final BuildContext context;
 
   @override
   Override overrideWith(
@@ -119,6 +127,7 @@ class SearchCharacterProvider extends AutoDisposeFutureProvider<CharacterInfo> {
         allTransitiveDependencies: null,
         debugGetCreateSourceHash: null,
         characterName: characterName,
+        context: context,
       ),
     );
   }
@@ -131,13 +140,15 @@ class SearchCharacterProvider extends AutoDisposeFutureProvider<CharacterInfo> {
   @override
   bool operator ==(Object other) {
     return other is SearchCharacterProvider &&
-        other.characterName == characterName;
+        other.characterName == characterName &&
+        other.context == context;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, characterName.hashCode);
+    hash = _SystemHash.combine(hash, context.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -146,6 +157,9 @@ class SearchCharacterProvider extends AutoDisposeFutureProvider<CharacterInfo> {
 mixin SearchCharacterRef on AutoDisposeFutureProviderRef<CharacterInfo> {
   /// The parameter `characterName` of this provider.
   String get characterName;
+
+  /// The parameter `context` of this provider.
+  BuildContext get context;
 }
 
 class _SearchCharacterProviderElement
@@ -155,6 +169,8 @@ class _SearchCharacterProviderElement
 
   @override
   String get characterName => (origin as SearchCharacterProvider).characterName;
+  @override
+  BuildContext get context => (origin as SearchCharacterProvider).context;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

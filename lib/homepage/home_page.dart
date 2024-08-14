@@ -73,7 +73,7 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState {
             characterName.isEmpty
                 ? const Text('캐릭터를 검색해주세요')
                 : Center(
-                    child: searchCharacter(ref, characterName).when(
+                    child: searchCharacter(ref, characterName, context).when(
                       data: (data) => data == null
                           ? const SizedBox.shrink()
                           : Image.network(data.image),
@@ -111,7 +111,7 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState {
             characterName.isEmpty
                 ? const Text('캐릭터를 검색해주세요')
                 : Center(
-                    child: searchCharacter(ref, characterName).when(
+                    child: searchCharacter(ref, characterName, context).when(
                       data: (data) => data == null
                           ? const SizedBox.shrink()
                           : Image.network(data.image),

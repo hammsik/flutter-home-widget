@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_home_widget/homepage/home_event.dart';
 import 'package:flutter_home_widget/homepage/home_state.dart';
 import 'package:flutter_home_widget/homepage/providers/character_info_provider.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -30,6 +31,7 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState {
   void initState() {
     super.initState();
     updateHomeWidget('토레타', 'https://이온보충쓰');
+    eitherTest();
   }
 
   @override
@@ -132,3 +134,48 @@ class _MyHomeState extends ConsumerState<MyHome> with HomeState {
     );
   }
 }
+
+void eitherTest() {
+  final values = [
+    '1',
+    '2',
+    '3',
+    '4',
+    'qwer',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '꾸엙!?',
+    '13',
+    '14',
+    '15'
+  ];
+  print(parseFizzBuzz(values).join('\n'));
+}
+
+Either<FormatException, double> parseNumber(String value) {
+  return Either.tryCatch(
+    () => double.parse(value),
+    (e, _) => e as FormatException,
+  );
+}
+
+String fizzBuzz(double value) {
+  if (value % 3 == 0 && value % 5 == 0) {
+    return 'fizz buzz';
+  }
+  if (value % 3 == 0) {
+    return 'fizz';
+  }
+  if (value % 5 == 0) {
+    return 'buzz';
+  }
+  return value.toString();
+}
+
+Iterable<Either<FormatException, String>> parseFizzBuzz(List<String> values) =>
+    values.map((value) =>
+        parseNumber(value).map((doubleValue) => fizzBuzz(doubleValue)));
